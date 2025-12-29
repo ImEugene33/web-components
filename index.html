@@ -47,6 +47,8 @@
         super();
         // Создаём Shadow DOM для изоляции стилей
         this.attachShadow({ mode: 'open' });
+        // Начальное значение счётчика для каждой кнопки
+        this.count = 0;
       }
       
       // Вызывается когда элемент добавлен в DOM
@@ -69,6 +71,7 @@
               cursor: pointer;
               transition: all 0.2s;
               box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+              min-width: 150px;
             }
             
             button:hover {
@@ -81,9 +84,20 @@
               transform: translateY(0);
               box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             }
+            
+            .count {
+              display: block;
+              font-size: 24px;
+              font-weight: bold;
+              margin-top: 4px;
+            }
           </style>
           
-          <button>Click me</button>
+          <button>
+            Clicked
+            <span class="count">${this.count}</span>
+            times
+          </button>
         `;
       }
       
@@ -91,8 +105,9 @@
       setupEventListeners() {
         // Вешаем обработчик на сам элемент <my-button>
         this.addEventListener('click', () => {
-          console.log('Button clicked!');
-          alert('You clicked the button! 🎉');
+          this.count++; // Увеличиваем счётчик
+          this.render(); // Перерисовываем кнопку с новым значением
+          console.log(`Button clicked ${this.count} times`);
         });
       }
     }
